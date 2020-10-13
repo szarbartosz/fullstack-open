@@ -8,5 +8,5 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part1 - Introduction to React
 - [x] introduction to react
 - [x] javascript
-- [ ] component state, event handlers
+- [x] component state, event handlers
 - [ ] more complex state, debugging react apps
