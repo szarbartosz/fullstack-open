@@ -12,8 +12,8 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] more complex state, debugging react apps
 
 ### part2 - Communicating with server
-- [ ] rendering a collection, modules
-- [ ] forms
+- [x] rendering a collection, modules
+- [x] forms
 - [ ] getting data from server
 - [ ] altering data in server
 - [ ] adding styles to react app
