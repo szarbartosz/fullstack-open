@@ -18,4 +18,4 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [ ] altering data in server
 - [ ] adding styles to react app
 
-### part3 Programming a server with NodeJS and Express
+### part3 - Programming a server with NodeJS and Express
