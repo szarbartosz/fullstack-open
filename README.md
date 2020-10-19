@@ -23,6 +23,3 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [ ] deploying app to internet
 - [ ] saving data to mongodb
 - [ ] validation and eslint
-
-### phonebook app from part 2 showcase
-![](resources/phonebook-gif.gif)
