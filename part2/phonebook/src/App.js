@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
-  const [ newFilter, setNewFilter ] = useState('')
+  const [ newNameFilter, setNewNameFilter ] = useState('')
+  const [ newNumberFilter, setNewNumberFilter ] = useState('')
+  const [ succesMessage, setSuccessMesage ] = useState(null)
+  const [ errorMessage, setErrorMesage ] = useState(null)
 
   useEffect(() => {
     personService
@@ -26,8 +30,12 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleFilterChange = (event) => {
-    setNewFilter(event.target.value)
+  const handleNameFilterChange = (event) => {
+    setNewNameFilter(event.target.value)
+  }
+
+  const handleNumberFilterChange = (event) => {
+    setNewNumberFilter(event.target.value)
   }
 
   const addPerson = (event) => {
@@ -40,6 +48,13 @@ const App = () => {
 
       if (isConfirmed) {
         updateNumber(id, newNumber)
+        setNewName('')
+        setNewNumber('')
+
+        setSuccessMesage(`Changed number of: ${newName}`)
+        setTimeout(() => {
+          setSuccessMesage(null)
+        }, 5000)
       } else {
         setNewName('')
         setNewNumber('')
@@ -55,7 +70,12 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
-          setNewNumber('')  
+          setNewNumber('')
+
+          setSuccessMesage(`Added to contacts: ${returnedPerson.name}`)
+          setTimeout(() => {
+            setSuccessMesage(null)
+          }, 5000)  
         })
     }
   }
@@ -71,8 +91,10 @@ const App = () => {
       setPersons(persons.map(p => p.id === id ? p = returnedPerson : p))
     })
     .catch(error => {
-      console.log(error);
-      alert(`the person '${person.name}' was already deleted from the server!`)
+      setErrorMesage(`Information of: ${person.name} has already been removed from the server!`)
+      setTimeout(() => {
+        setErrorMesage(null)
+      }, 5000)
       setPersons(persons.filter(p => p.id !== id))
     })
   }
@@ -85,11 +107,17 @@ const App = () => {
       .deleteEntry(person.id)
       .then(response => {
         setPersons(persons.filter(p => p.id !== person.id))
-        console.log(`${person.name} deleted succesfully`);
+
+        setSuccessMesage(`Deleted information of: ${person.name}`)
+        setTimeout(() => {
+          setSuccessMesage(null)
+        }, 5000)  
       })
       .catch(error => {
-        console.log(error);
-        alert(`${person.name} was already deleted from the server!`)
+        setErrorMesage(`Information of: ${person.name} has already been removed from the server!`)
+        setTimeout(() => {
+          setErrorMesage(null)
+        }, 5000)
         setPersons(persons.filter(p => p.id !== person.id))
       })
     }
@@ -99,17 +127,20 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <hr/>
 
-      <Filter filter={newFilter} filterChangeHandler={handleFilterChange} />
-
-      <h3>Add a new</h3>
+      <Notification successMessage={succesMessage} errorMessage={errorMessage} />
 
       <PersonForm submitHandler={addPerson} nameInput={newName} nameChangeHandler={handleNameChange}
         numberInput={newNumber} numberChangeHandler={handleNumberChange} />      
-      
-      <h2>Numbers</h2>
 
-      <Persons persons={persons.filter(person => new RegExp(newFilter, 'i').test(person.name))} deleteEntry={deleteEntry} />
+      <Filter nameFilter={newNameFilter} numberFilter={newNumberFilter} 
+        nameFilterChangeHandler={handleNameFilterChange}  numberFilterChangeHandler={handleNumberFilterChange}/>
+      
+      <Persons persons={persons
+                        .filter(person => new RegExp(newNameFilter, 'i').test(person.name))
+                        .filter(person => new RegExp(newNumberFilter).test(person.number))
+                      } deleteEntry={deleteEntry} />
     </div>
   )
 }
