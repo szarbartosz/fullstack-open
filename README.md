@@ -19,7 +19,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] adding styles to react app
 
 ### part3 - Programming a server with NodeJS and Express
-- [ ] node.js and express
+- [x] node.js and express
 - [ ] deploying app to internet
 - [ ] saving data to mongodb
 - [ ] validation and eslint
