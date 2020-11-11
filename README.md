@@ -20,6 +20,8 @@ React-oriented fullstack course I took in order to enhance my programming skills
 
 ### part3 - Programming a server with NodeJS and Express
 - [x] node.js and express
-- [ ] deploying app to internet
+- [x] deploying app to internet
 - [ ] saving data to mongodb
 - [ ] validation and eslint
+
+[link to phonebook app](https://radiant-everglades-66133.herokuapp.com)
