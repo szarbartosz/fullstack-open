@@ -59,25 +59,25 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       }
-    } else {
-      const newPerson = {
-        name: newName,
-        number: newNumber
+    } else {        
+        const newPerson = {
+          name: newName,
+          number: newNumber
+        }
+
+        personService
+          .create(newPerson)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+
+            setSuccessMesage(`Added to contacts: ${returnedPerson.name}`)
+            setTimeout(() => {
+              setSuccessMesage(null)
+            }, 5000)  
+          })
       }
-
-      personService
-        .create(newPerson)
-        .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
-          setNewName('')
-          setNewNumber('')
-
-          setSuccessMesage(`Added to contacts: ${returnedPerson.name}`)
-          setTimeout(() => {
-            setSuccessMesage(null)
-          }, 5000)  
-        })
-    }
   }
 
   const updateNumber = (id, number) => {
@@ -88,14 +88,14 @@ const App = () => {
     personService
     .updateNumber(id, changedPerson)
     .then(returnedPerson => {
-      setPersons(persons.map(p => p.id === id ? p = returnedPerson : p))
+      setPersons(persons.map(person => person.id === id ? returnedPerson : person))
     })
     .catch(error => {
       setErrorMesage(`Information of: ${person.name} has already been removed from the server!`)
       setTimeout(() => {
         setErrorMesage(null)
       }, 5000)
-      setPersons(persons.filter(p => p.id !== id))
+      setPersons(persons.filter(person => person.id !== id))
     })
   }
 
