@@ -30,4 +30,4 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [ ] user administration
 - [ ] token authentication
 
-[link to phonebook app](https://https://nameless-peak-91445.herokuapp.com)
+[link to phonebook app](https://nameless-peak-91445.herokuapp.com)
