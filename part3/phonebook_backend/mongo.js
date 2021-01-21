@@ -1,6 +1,7 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 
-if (process.argv.length != 3 && process.argv.length != 5) {
+if (process.argv.length !== 3 && process.argv.length !== 5) {
   console.log('Wrong Usage! Try: node mongo.js <password> <name> <phone> or node mongo.js <password>')
   process.exit(1)
 }
@@ -18,7 +19,7 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Person', personSchema)
 
-if (process.argv.length == 3) {
+if (process.argv.length === 3) {
   mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true })
   console.log('phonebook:')
   Person.find({}).then(result => {
@@ -27,15 +28,15 @@ if (process.argv.length == 3) {
     })
     mongoose.connection.close()
   })
-} else if (process.argv.length == 5) {
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true})
+} else if (process.argv.length === 5) {
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
   const person = new Person({
     name: `${name}`,
     number: `${number}`
   })
 
-  person.save().then(result => {
+  person.save().then(() => {
     console.log('contact saved!')
     console.log(`added ${name} - ${number} to phonebook`)
     mongoose.connection.close()

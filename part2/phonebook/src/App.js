@@ -39,64 +39,34 @@ const App = () => {
   }
 
   const addPerson = (event) => {
-    event.preventDefault()
-    let filteredPersons = persons.filter(person => person.name === newName)
-    
-    if (filteredPersons.length > 0) {
-      let id = filteredPersons[0].id
-      let isConfirmed = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-
-      if (isConfirmed) {
-        updateNumber(id, newNumber)
-        setNewName('')
-        setNewNumber('')
-
-        setSuccessMesage(`Changed number of: ${newName}`)
-        setTimeout(() => {
-          setSuccessMesage(null)
-        }, 5000)
-      } else {
-        setNewName('')
-        setNewNumber('')
-      }
-    } else {        
-        const newPerson = {
-          name: newName,
-          number: newNumber
-        }
-
-        personService
-          .create(newPerson)
-          .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
-            setNewName('')
-            setNewNumber('')
-
-            setSuccessMesage(`Added to contacts: ${returnedPerson.name}`)
-            setTimeout(() => {
-              setSuccessMesage(null)
-            }, 5000)  
-          })
-      }
-  }
-
-  const updateNumber = (id, number) => {
-    const person = persons.find(p => p.id === id)
-    const changedPerson = { ...person, number: number}
-    console.log(changedPerson)
+    event.preventDefault()        
+    const newPerson = {
+      name: newName,
+      number: newNumber
+    }
 
     personService
-    .updateNumber(id, changedPerson)
-    .then(returnedPerson => {
-      setPersons(persons.map(person => person.id === id ? returnedPerson : person))
-    })
-    .catch(error => {
-      setErrorMesage(`Information of: ${person.name} has already been removed from the server!`)
-      setTimeout(() => {
-        setErrorMesage(null)
-      }, 5000)
-      setPersons(persons.filter(person => person.id !== id))
-    })
+      .create(newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+
+        setSuccessMesage(`Added to contacts: ${returnedPerson.name}`)
+        setTimeout(() => {
+          setSuccessMesage(null)
+        }, 5000)  
+      })
+      .catch(error => {
+        setNewName('')
+        setNewNumber('')
+
+        setErrorMesage(error.response.data.error)
+        setTimeout(() => {
+          setErrorMesage(null)
+        }, 5000)  
+        console.log(error.response.data)
+      })
   }
 
   const deleteEntry = person => {
