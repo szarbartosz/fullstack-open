@@ -21,7 +21,13 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part3 - Programming a server with NodeJS and Express
 - [x] node.js and express
 - [x] deploying app to internet
-- [ ] saving data to mongodb
-- [ ] validation and eslint
+- [x] saving data to mongodb
+- [x] validation and eslint
 
-[link to phonebook app](https://radiant-everglades-66133.herokuapp.com)
+### part3 - Testing Express servers, user administration
+- [ ] structure of backend application, introduction to testing
+- [ ] testing the backend
+- [ ] user administration
+- [ ] token authentication
+
+[link to phonebook app](https://https://nameless-peak-91445.herokuapp.com)
