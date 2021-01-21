@@ -25,7 +25,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] validation and eslint
 
 ### part3 - Testing Express servers, user administration
-- [ ] structure of backend application, introduction to testing
+- [x] structure of backend application, introduction to testing
 - [ ] testing the backend
 - [ ] user administration
 - [ ] token authentication
