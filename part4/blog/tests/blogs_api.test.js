@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const helper = require('./test_helper')
@@ -5,13 +6,29 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
+
+beforeAll(async () => {
+  await User.deleteMany({})
+
+  const user = {
+    username: 'username',
+    password: 'password'
+  }
+
+  const addUserResponse = await api.post('/api/users').send(user)
+  process.env.USER = addUserResponse.body
+
+  const loginResponse = await api.post('/api/login').send(user)
+  process.env.TOKEN = loginResponse.body.token
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
 
   for (let blog of helper.initialBlogs) {
-    let noteObject = new Blog(blog)
-    await noteObject.save()
+    let blogObject = new Blog(blog)
+    await blogObject.save()
   }
 })
 
@@ -39,14 +56,14 @@ describe('when there are initially some blogs saved', () => {
 describe('addition of a new blog', () => {
   test('succeeds with valid data', async () => {
     const newBlog = {
-      title: 'Example title',
-      author: 'Author',
-      url: 'http://www.exampleblog.com',
-      likes: 7,
+      title: 'Another title',
+      author: 'Another author',
+      url: 'http://www.exampleblog.com'
     }
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .send(newBlog)
       .expect(200)
       .expect('Content-Type', /application\/json/)
@@ -56,7 +73,29 @@ describe('addition of a new blog', () => {
 
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).toContain(
-      'Example title'
+      'Another title'
+    )
+  })
+
+  test('fails when token is missing', async () => {
+    const newBlog = {
+      title: 'Another title',
+      author: 'Another author',
+      url: 'http://www.exampleblog.com'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).not.toContain(
+      'Another title'
     )
   })
 
@@ -69,6 +108,7 @@ describe('addition of a new blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .send(newBlog)
       .expect(200)
       .expect('Content-Type', /application\/json/)
@@ -88,6 +128,7 @@ describe('addition of a new blog', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
@@ -103,6 +144,7 @@ describe('addition of a new blog', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
@@ -119,6 +161,7 @@ describe('addition of a new blog', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -139,6 +182,7 @@ describe('addition of a new blog', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
@@ -151,12 +195,13 @@ describe('addition of a new blog', () => {
 })
 
 describe('deletion of a blog', () => {
-  test('succeds with status code 204 if id is valid', async () => {
+  test('succeds with status code 204 if id is valid and user is authorised', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', `bearer ${process.env.TOKEN}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()

@@ -24,10 +24,10 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] saving data to mongodb
 - [x] validation and eslint
 
-### part3 - Testing Express servers, user administration
+### part4 - Testing Express servers, user administration
 - [x] structure of backend application, introduction to testing
-- [ ] testing the backend
-- [ ] user administration
-- [ ] token authentication
+- [x] testing the backend
+- [x] user administration
+- [x] token authentication
 
 [link to phonebook app](https://nameless-peak-91445.herokuapp.com)
