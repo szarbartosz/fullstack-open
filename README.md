@@ -30,4 +30,10 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] user administration
 - [x] token authentication
 
+### part5 - Testing React apps
+- [ ] login in frontend
+- [ ] props.children and prototypes
+- [ ] testing react apps
+- [ ] end to end -testing
+
 [link to phonebook app](https://nameless-peak-91445.herokuapp.com)
