@@ -18,13 +18,15 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+    blogService.getAll().then(blogs =>      
+      setBlogs(blogs.sort((a, b) => 
+        a.likes > b.likes ? -1 : 1
+      ))
     )
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogsAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -45,6 +47,40 @@ const App = () => {
       })
   }
 
+  const likeBlog = (id) => {
+    const blog = blogs.find(b => b.id === id)
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
+
+    blogService
+      .update(id, changedBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+      .catch(error => {
+        alert(`the blog '${blog.title}' was already deleted from the server`)
+        setBlogs(blogs.filter(b => b.id !== id))
+      })
+  }
+
+  const removeBlog = (blog) => {
+    blogService
+      .remove(blog.id)
+      .then(response => {
+        setBlogs(blogs.filter(b => b.id !== blog.id))
+
+        setSuccessMessage(`Deleted blog: ${blog.title}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000) 
+      })
+      .catch(error => {
+        setErrorMessage(`${error}`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      })
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -52,7 +88,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
 
       window.localStorage.setItem(
-        'loggedNoteAppUser', JSON.stringify(user)
+        'loggedBlogsAppUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
       setUser(user)
@@ -67,7 +103,7 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedNoteAppUser')
+    window.localStorage.removeItem('loggedBlogsAppUser')
     window.location.reload()
   }
 
@@ -85,7 +121,7 @@ const App = () => {
                 <BlogsForm createBlog={addBlog} />
                 <br></br>
               </Togglable>
-              <UserPanel userName={user.name} handleLogout={handleLogout} blogs={blogs} createBlog={addBlog} /> 
+              <UserPanel user={user} handleLogout={handleLogout} blogs={blogs} createBlog={addBlog} likeBlog={likeBlog} removeBlog={removeBlog} /> 
             </div> 
       }
 
