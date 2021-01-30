@@ -1,8 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const BlogsForm = ({ addBlog, title, handleTitleChange, author, handleAuthorChange, url, handleUrlChange }) => {
+const BlogsForm = ({ createBlog }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+  
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+  
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value)
+  }
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    createBlog ({
+      title: title,
+      author: author,
+      url: url
+    })
+
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
   return (
-    <form onSubmit={addBlog} className="w-50 mx-auto">
+    <form onSubmit={addBlog} className="w-50 mx-auto text-white">
       <div className="form-group">
         <label htmlFor="title">title</label>
         <input
@@ -30,7 +59,7 @@ const BlogsForm = ({ addBlog, title, handleTitleChange, author, handleAuthorChan
       </div>       
       <br></br>
       <div className="w-100">
-      <button type="submit" className="btn btn-primary btn-block">save</button>
+      <button type="submit" className="btn btn-primary btn-block w-100">save</button>
       </div>
       
     </form>

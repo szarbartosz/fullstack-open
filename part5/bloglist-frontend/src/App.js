@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import BlogsForm from './components/BlogsForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import UserPanel from './components/UserPanel'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -12,9 +14,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -31,37 +32,16 @@ const App = () => {
     }
   }, [])
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-  
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-  
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
-
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: title,
-      author: author,
-      url: url
-    }
-
+  const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setSuccessMessage(`Added a new blog to list! ${title} by ${author}`)
+        setSuccessMessage(`Added a new blog to list! ${blogObject.title} by ${blogObject.author}`)
         setTimeout(() => {
           setSuccessMessage(null)
         }, 5000)
-        setTitle('')
-        setAuthor('')
-        setUrl('')
       })
   }
 
@@ -100,7 +80,13 @@ const App = () => {
           ? <div>
               <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />
             </div>
-          : <UserPanel userName={user.name} handleLogout={handleLogout} blogs={blogs} addBlog={addBlog} title={title} handleTitleChange={handleTitleChange} author={author} handleAuthorChange={handleAuthorChange} url={url} handleUrlChange={handleUrlChange}/> 
+          : <div>
+              <Togglable buttonLabel="new blog" ref={blogFormRef}>
+                <BlogsForm createBlog={addBlog} />
+                <br></br>
+              </Togglable>
+              <UserPanel userName={user.name} handleLogout={handleLogout} blogs={blogs} createBlog={addBlog} /> 
+            </div> 
       }
 
       
