@@ -32,12 +32,12 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
           <div style={showWhenVisible} className="text-center">
             { user.name === blog.user.name
               ? <div>
-                  <button type="submit" className="btn btn-outline-secondary btn-block w-25 m-2" onClick={toggleVisibility}>hide</button>
-                  <button type="submit" className="btn btn-outline-danger btn-block w-25 m-2" onClick={removeBlog}>remove blog</button>
-                </div>
+                <button type="submit" className="btn btn-outline-secondary btn-block w-25 m-2" onClick={toggleVisibility}>hide</button>
+                <button type="submit" className="btn btn-outline-danger btn-block w-25 m-2" onClick={removeBlog}>remove blog</button>
+              </div>
               : <div>
-                  <button type="submit" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>hide</button>
-                </div>
+                <button type="submit" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>hide</button>
+              </div>
             }
           </div>
         </div>

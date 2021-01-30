@@ -18,8 +18,8 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>      
-      setBlogs(blogs.sort((a, b) => 
+    blogService.getAll().then(blogs =>
+      setBlogs(blogs.sort((a, b) =>
         a.likes > b.likes ? -1 : 1
       ))
     )
@@ -56,7 +56,7 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
-      .catch(error => {
+      .catch(() => {
         alert(`the blog '${blog.title}' was already deleted from the server`)
         setBlogs(blogs.filter(b => b.id !== id))
       })
@@ -65,13 +65,13 @@ const App = () => {
   const removeBlog = (blog) => {
     blogService
       .remove(blog.id)
-      .then(response => {
+      .then(() => {
         setBlogs(blogs.filter(b => b.id !== blog.id))
 
         setSuccessMessage(`Deleted blog: ${blog.title}`)
         setTimeout(() => {
           setSuccessMessage(null)
-        }, 5000) 
+        }, 5000)
       })
       .catch(error => {
         setErrorMessage(`${error}`)
@@ -83,7 +83,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({ username, password })
 
@@ -114,20 +114,20 @@ const App = () => {
       {
         user === null
           ? <div>
-              <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />
-            </div>
+            <LoginForm handleLogin={handleLogin} setUsername={setUsername} setPassword={setPassword} username={username} password={password} />
+          </div>
           : <div>
-              <Togglable buttonLabel="new blog" ref={blogFormRef}>
-                <BlogsForm createBlog={addBlog} />
-                <br></br>
-              </Togglable>
-              <UserPanel user={user} handleLogout={handleLogout} blogs={blogs} createBlog={addBlog} likeBlog={likeBlog} removeBlog={removeBlog} /> 
-            </div> 
+            <Togglable buttonLabel="new blog" ref={blogFormRef}>
+              <BlogsForm createBlog={addBlog} />
+              <br></br>
+            </Togglable>
+            <UserPanel user={user} handleLogout={handleLogout} blogs={blogs} createBlog={addBlog} likeBlog={likeBlog} removeBlog={removeBlog} />
+          </div>
       }
 
-      
+
     </div>
   )
 }
 
-export default App;
+export default App
