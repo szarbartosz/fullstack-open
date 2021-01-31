@@ -31,8 +31,8 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] token authentication
 
 ### part5 - Testing React apps
-- [ ] login in frontend
-- [ ] props.children and prototypes
+- [x] login in frontend
+- [x] props.children and prototypes
 - [ ] testing react apps
 - [ ] end to end -testing
 
