@@ -33,7 +33,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part5 - Testing React apps
 - [x] login in frontend
 - [x] props.children and prototypes
-- [ ] testing react apps
-- [ ] end to end -testing
+- [x] testing react apps
+- [x] end to end -testing
 
 [link to phonebook app](https://nameless-peak-91445.herokuapp.com)

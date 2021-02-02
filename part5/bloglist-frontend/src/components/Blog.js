@@ -24,16 +24,16 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
         <p>title: {blog.title}</p>
         <p>author: {blog.author}</p>
         <div style={hideWhenVisible} className="text-center">
-          <button type="submit" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>view more</button>
+          <button type="submit" id="expand-button" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>view more</button>
         </div>
         <div style={showWhenVisible} className="invisibleAtStart" >
           <p>url: {blog.url}</p>
-          <p>likes: {blog.likes}<button type="button" className="btn btn-sm btn-primary py-0 mx-2" onClick={likeBlog}>like</button></p>
+          <p id="likes-paragraph">likes: {blog.likes}<button type="button" id="like-button" className="btn btn-sm btn-primary py-0 mx-2" onClick={likeBlog}>like</button></p>
           <div style={showWhenVisible} className="text-center">
             { user.name === blog.user.name
               ? <div>
                 <button type="submit" className="btn btn-outline-secondary btn-block w-25 m-2" onClick={toggleVisibility}>hide</button>
-                <button type="submit" className="btn btn-outline-danger btn-block w-25 m-2" onClick={removeBlog}>remove blog</button>
+                <button type="submit" id="delete-button" className="btn btn-outline-danger btn-block w-25 m-2" onClick={removeBlog}>remove blog</button>
               </div>
               : <div>
                 <button type="submit" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>hide</button>
