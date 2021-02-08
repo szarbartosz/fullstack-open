@@ -85,6 +85,7 @@ const App = () => {
     event.preventDefault()
 
     try {
+      console.log({ username, password })
       const user = await loginService.login({ username, password })
 
       window.localStorage.setItem(
@@ -124,8 +125,6 @@ const App = () => {
             <UserPanel user={user} handleLogout={handleLogout} blogs={blogs} createBlog={addBlog} likeBlog={likeBlog} removeBlog={removeBlog} />
           </div>
       }
-
-
     </div>
   )
 }

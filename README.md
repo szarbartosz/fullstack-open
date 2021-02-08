@@ -36,4 +36,10 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] testing react apps
 - [x] end to end -testing
 
+### part6 - State management with Redux
+- [x] flux-architecture and redux
+- [ ] many recucers
+- [ ] communicating with server in a redux application
+- [ ] connect
+
 [link to phonebook app](https://nameless-peak-91445.herokuapp.com)
