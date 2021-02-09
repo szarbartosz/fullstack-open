@@ -38,7 +38,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 
 ### part6 - State management with Redux
 - [x] flux-architecture and redux
-- [ ] many recucers
+- [x] many recucers
 - [ ] communicating with server in a redux application
 - [ ] connect
 
