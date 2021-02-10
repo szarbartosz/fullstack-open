@@ -43,7 +43,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] connect
 
 ### part7 - React router, custom hooks, styling app with CSS and webpack
-- [ ] react router
+- [x] react router
 - [ ] custom hooks
 - [ ] more about styles
 - [ ] webpack
