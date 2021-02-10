@@ -40,6 +40,14 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] flux-architecture and redux
 - [x] many recucers
 - [x] communicating with server in a redux application
-- [ ] connect
+- [x] connect
+
+### part7 - React router, custom hooks, styling app with CSS and webpack
+- [ ] react router
+- [ ] custom hooks
+- [ ] more about styles
+- [ ] webpack
+- [ ] class components, miscellaneous
+- [ ] excercises: extending the bloglist
 
 [link to phonebook app](https://nameless-peak-91445.herokuapp.com)
