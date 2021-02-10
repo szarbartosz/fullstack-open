@@ -39,7 +39,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part6 - State management with Redux
 - [x] flux-architecture and redux
 - [x] many recucers
-- [ ] communicating with server in a redux application
+- [x] communicating with server in a redux application
 - [ ] connect
 
 [link to phonebook app](https://nameless-peak-91445.herokuapp.com)
