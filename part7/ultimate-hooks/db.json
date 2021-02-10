@@ -1,0 +1,54 @@
+{
+  "notes": [
+    {
+      "content": "custom-hookit aivan mahtavia",
+      "id": 1
+    },
+    {
+      "content": "paras feature ikinä <3",
+      "id": 2
+    },
+    {
+      "content": "coool",
+      "id": 3
+    },
+    {
+      "content": "znakomicie",
+      "id": 4
+    },
+    {
+      "content": "dsa",
+      "id": 5
+    },
+    {
+      "content": "note",
+      "id": 6
+    },
+    {
+      "content": "dasdas",
+      "id": 7
+    }
+  ],
+  "persons": [
+    {
+      "name": "mluukkai",
+      "number": "040-5483923",
+      "id": 1
+    },
+    {
+      "name": "jozin z bazin",
+      "number": "123123",
+      "id": 2
+    },
+    {
+      "name": "name",
+      "number": "218421",
+      "id": 3
+    },
+    {
+      "name": "qwerty",
+      "number": "213",
+      "id": 4
+    }
+  ]
+}
