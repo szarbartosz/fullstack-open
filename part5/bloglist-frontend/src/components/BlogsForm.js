@@ -1,33 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
-const BlogsForm = ({ createBlog }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+const BlogsForm = () => {
+  const dispatch = useDispatch()
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
-  }
-
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
-    createBlog ({
-      title: title,
-      author: author,
-      url: url
-    })
+    const blogObject = {
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value
+    }
 
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    dispatch(setNotification(`added blog: ${event.target.title.value}`, 5))
+
+    event.target.title.value = ''
+    event.target.author.value = ''
+    event.target.url.value = ''
+
+    dispatch(createBlog(blogObject))
   }
 
   return (
@@ -35,26 +28,17 @@ const BlogsForm = ({ createBlog }) => {
       <div className="form-group">
         <label htmlFor="title">title</label>
         <input
-          id="title"
-          value={title}
-          onChange={handleTitleChange}
-          className="form-control"
+          name="title"
         />
       </div>
       <label htmlFor="author">author</label>
       <input
-        id="author"
-        value={author}
-        onChange={handleAuthorChange}
-        className="form-control"
+        name="author"
       />
       <div className="form-group">
         <label htmlFor="url">url</label>
         <input
-          id="url"
-          value={url}
-          onChange={handleUrlChange}
-          className="form-control"
+          name="url"
         />
       </div>
       <br></br>

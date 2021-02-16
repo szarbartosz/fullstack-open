@@ -1,13 +1,21 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const Notification = ({ successMessage, errorMessage }) => {
-  if (successMessage === null && errorMessage === null) return null
-  if (successMessage !== null) {
-    return <button type="button" className="btn btn-success btn-lg btn-block w-100" disabled>{successMessage}</button>
-  } else if (errorMessage !== null) {
-    return <button type="button" className="btn btn-danger btn-lg btn-block w-100" disabled>{errorMessage}</button>
+const Notification = () => {
+  const notification = useSelector(state => state.notification)
+  const style = {
+    border: 'solid',
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1
   }
-  return null
+  if (notification !== null) {
+    return (
+      <div style={style}>
+        {notification}
+      </div>
+    )
+  } else return null
 }
 
 export default Notification

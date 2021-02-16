@@ -1,7 +1,11 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../reducers/loginReducer'
 import BlogList from './BlogList'
 
-const UserPanel = ({ user, handleLogout, blogs, likeBlog, removeBlog }) => {
+const UserPanel = () => {
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
   return (
     <div>
       <div className="card border-0 shadow w-75 mx-auto my-5 p-2">
@@ -13,11 +17,11 @@ const UserPanel = ({ user, handleLogout, blogs, likeBlog, removeBlog }) => {
             <p className="pt-2">logged-in as: {user.name}</p>
           </div>
           <div className="col-sm-4">
-            <button onClick={handleLogout} type="button" className="btn btn-danger">logout</button>
+            <button onClick={() => dispatch(logout())} type="button" className="btn btn-danger">logout</button>
           </div>
         </div>
         <hr></hr>
-        <BlogList blogs={blogs} likeBlog={likeBlog} removeBlog={removeBlog} user={user} />
+        <BlogList user={user} />
       </div>
     </div>
   )

@@ -1,10 +1,33 @@
 import React from 'react'
-import Blog from './Blog'
+import { useSelector } from 'react-redux'
+import BlogsForm from './BlogsForm'
+import Togglable from './Togglable'
+import {
+  Link
+} from 'react-router-dom'
 
-const BlogList = ({ blogs, likeBlog, removeBlog, user }) => {
+const BlogList = () => {
+  const blogs = useSelector(state => state.blogs)
+
+  const entryStyle ={
+    border: 'solid',
+    marginBottom: 2,
+    padding: 4,
+    borderWidth: 1
+  }
+
   return (
     <div id="blog-list">
-      {blogs.map(blog => <Blog key={blog.id} blog={blog} likeBlog={() => likeBlog(blog.id)} removeBlog={() => removeBlog(blog)} user={user} />)}
+      <h2>blog app</h2>
+      <Togglable buttonLabel="create new">
+        <BlogsForm />
+        <br></br>
+      </Togglable>
+      {blogs.map(blog =>
+        <div key={blog.id} style={entryStyle}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+        </div>
+      )}
     </div>
   )
 }

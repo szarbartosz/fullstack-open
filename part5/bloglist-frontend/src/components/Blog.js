@@ -1,47 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, likeBlog, removeBlog, user }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
 
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
+  if (!blog) return null
 
   return (
-    <div style={blogStyle} className="blog">
-      <div>
-        <p>title: {blog.title}</p>
-        <p>author: {blog.author}</p>
-        <div style={hideWhenVisible} className="text-center">
-          <button type="submit" id="expand-button" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>view more</button>
+    <div>
+      <h2>{blog.title}</h2>
+      <a href={blog.url}>{blog.url}</a>
+      <p id="likes-paragraph">{blog.likes} likes<button type="button" id="like-button" className="btn btn-sm btn-primary py-0 mx-2" onClick={() => dispatch(likeBlog(blog.id))}>like</button></p>
+      <p>added by {user.name}</p>
+      { user.name === blog.user.name
+        ? <div>
+          <button type="submit" id="delete-button" className="btn btn-outline-danger btn-block w-25 m-2" onClick={() => dispatch(removeBlog(blog.id))}>remove blog</button>
         </div>
-        <div style={showWhenVisible} className="invisibleAtStart" >
-          <p>url: {blog.url}</p>
-          <p id="likes-paragraph">likes: {blog.likes}<button type="button" id="like-button" className="btn btn-sm btn-primary py-0 mx-2" onClick={likeBlog}>like</button></p>
-          <div style={showWhenVisible} className="text-center">
-            { user.name === blog.user.name
-              ? <div>
-                <button type="submit" className="btn btn-outline-secondary btn-block w-25 m-2" onClick={toggleVisibility}>hide</button>
-                <button type="submit" id="delete-button" className="btn btn-outline-danger btn-block w-25 m-2" onClick={removeBlog}>remove blog</button>
-              </div>
-              : <div>
-                <button type="submit" className="btn btn-outline-secondary btn-block w-75 m-2" onClick={toggleVisibility}>hide</button>
-              </div>
-            }
+        : null
+      }
+      {
+        blog.comments
+          ? <div>
+            <h4>comments:</h4>
+            <ul>
+              {
+                blog.comments.map((comment, index) =>
+                  <li key={index}>{comment}</li>
+                )}
+            </ul>
           </div>
-        </div>
-      </div>
+          : null
+      }
+
     </div>
   )}
 
