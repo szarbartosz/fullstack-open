@@ -17,6 +17,7 @@ import {
   useRouteMatch
 } from 'react-router-dom'
 import BlogList from './components/BlogList'
+import { Button } from 'react-bootstrap'
 
 const App = () => {
   const user = useSelector(state => state.user)
@@ -50,19 +51,17 @@ const App = () => {
     ? users.find(user => user.id === userMatch.params.id)
     : null
 
-  const navStyle = {
-    backgroundColor: 'lightgray'
-  }
-
   return (
-    <div>
-      <div style={navStyle}>
+    <div className="container">
+      <div>
         <Link style={padding} to="/">blogs</Link>
         <Link style={padding} to="/users">users</Link>
         {user !== null
           ?  <span>
             <em>{user.name} logged in</em>
-            <button onClick={() => dispatch(logout())} type="button" className="btn btn-danger">logout</button>
+            <Button onClick={() => dispatch(logout())} variant="danger" size="sm">
+              logout
+            </Button>
           </span>
           : <Link style={padding} to="/login">login</Link>
         }

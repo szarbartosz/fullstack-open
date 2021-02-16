@@ -5,16 +5,10 @@ import Togglable from './Togglable'
 import {
   Link
 } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
-
-  const entryStyle ={
-    border: 'solid',
-    marginBottom: 2,
-    padding: 4,
-    borderWidth: 1
-  }
 
   return (
     <div id="blog-list">
@@ -23,11 +17,19 @@ const BlogList = () => {
         <BlogsForm />
         <br></br>
       </Togglable>
-      {blogs.map(blog =>
-        <div key={blog.id} style={entryStyle}>
-          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        </div>
-      )}
+      <Table striped>
+        <tbody>
+          {blogs.map(blog =>
+            <tr key={blog.id}>
+              <td>
+                <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+              </td>
+              <td>
+                {blog.user.name}
+              </td>
+            </tr>)}
+        </tbody>
+      </Table>
     </div>
   )
 }

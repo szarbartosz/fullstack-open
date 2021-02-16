@@ -45,9 +45,9 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part7 - React router, custom hooks, styling app with CSS and webpack
 - [x] react router
 - [x] custom hooks
-- [ ] more about styles
-- [ ] webpack
-- [ ] class components, miscellaneous
-- [ ] excercises: extending the bloglist
+- [x] more about styles
+- [x] webpack
+- [x] class components, miscellaneous
+- [x] excercises: extending the bloglist
 
 [deployed phonebook app](https://nameless-peak-91445.herokuapp.com)

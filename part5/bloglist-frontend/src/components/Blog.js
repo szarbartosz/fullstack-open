@@ -1,10 +1,22 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { addComment, likeBlog, removeBlog } from '../reducers/blogReducer'
+import { Button } from 'react-bootstrap'
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.user)
+
+  const handleCommentAddition = async (event) => {
+    event.preventDefault()
+    const comment = {
+      content: event.target.comment.value
+    }
+
+    event.target.comment.value = ''
+
+    dispatch(addComment(blog.id, comment))
+  }
 
 
   if (!blog) return null
@@ -21,6 +33,19 @@ const Blog = ({ blog }) => {
         </div>
         : null
       }
+      <br></br>
+      <form onSubmit={handleCommentAddition}>
+        <div>
+          <input
+            type="text"
+            className="form-control"
+            name="comment"
+          />
+          <Button type="submit" variant="primary" size="sm">
+            add comment
+          </Button>
+        </div>
+      </form>
       {
         blog.comments
           ? <div>
