@@ -70,9 +70,6 @@ const App = () => {
       <Notification />
 
       <Switch>
-        <Route path="/login">
-          <LoginForm />
-        </Route>
         <Route path="/blogs/:id">
           <Blog blog={blog} />
         </Route>
@@ -84,6 +81,9 @@ const App = () => {
         </Route>
         <Route path="/users">
           {user !== null ? <Users /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/login">
+          <LoginForm />
         </Route>
       </Switch>
     </div>
