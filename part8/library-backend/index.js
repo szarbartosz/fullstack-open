@@ -27,7 +27,7 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: Author!
+    author: Author
     genres: [String!]!
     id: ID!
   }
@@ -101,6 +101,14 @@ const resolvers = {
     }
   },
   Author: {
+    name: async (root) => {
+      const author = await Author.findById(root._id)
+      return author.name
+    },
+    born: async (root) => {
+      const author = await Author.findById(root._id)
+      return author.born
+    },
     bookCount: (root) => {
       return Book.find({ author: root._id }).countDocuments()
     }
@@ -145,7 +153,7 @@ const resolvers = {
       if (!currentUser) {
         throw new AuthenticationError('not authenticated')
       }
-      
+
       const author = await Author.findOne({ name: args.name })
       author.born = args.setBornTo
 
