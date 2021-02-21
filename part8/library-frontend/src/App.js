@@ -7,9 +7,9 @@ import { useApolloClient } from '@apollo/client';
 import Recommendations from './components/Recommendations'
 
 const App = () => {
-  const [page, setPage] = useState('authors')
+  const [page, setPage] = useState('recommendatoins')
   const [errorMessage, setErrorMessage] = useState(null)
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(!null)
   const client = useApolloClient()
 
   const notify = (message) => {
