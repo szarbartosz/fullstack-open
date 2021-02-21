@@ -53,7 +53,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part8 - GraphQL
 - [x] graphql-server
 - [x] react and graphql
-- [ ] database and user administration
+- [x] database and user administration
 - [ ] login and updating the cache
 - [ ] fragments and subscriptions
 
