@@ -55,6 +55,6 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] react and graphql
 - [x] database and user administration
 - [x] login and updating the cache
-- [ ] fragments and subscriptions
+- [x] fragments and subscriptions
 
 [deployed phonebook app](https://nameless-peak-91445.herokuapp.com)

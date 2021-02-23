@@ -94,8 +94,8 @@ const resolvers = {
       } else if (!args.author && args.genre) {
         return Book.find({ genres: { $in: [args.genre] }})
       } else {
-        // return books.filter(b => b.author === args.author && b.genres.includes(args.genre))
-        return null
+        const fetchedAuthor = await Author.findOne({ name: args.author })
+        return Book.find({ author: fetchedAuthor, genres: { $in: [args.genre] }})
       }
     },
     allAuthors: () => Author.find({}).populate('books'),
