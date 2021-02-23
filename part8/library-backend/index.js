@@ -1,5 +1,6 @@
-const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
+const { ApolloServer, gql, UserInputError, AuthenticationError, PubSub } = require('apollo-server')
 const jwt = require('jsonwebtoken')
+const pubsub = new PubSub()
 
 const mongoose = require('mongoose')
 const Book = require ('./models/book')
@@ -34,8 +35,9 @@ const typeDefs = gql`
 
   type Author {
     name: String!
-    bookCount: Int!
     born: Int
+    books: [Book!]!
+    bookCount: Int
   }
 
   type User {
@@ -49,7 +51,6 @@ const typeDefs = gql`
   }
 
   type Query {
-    bookCount: Int!
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
@@ -76,11 +77,13 @@ const typeDefs = gql`
       password: String!
     ): Token
   }
+  type Subscription {
+    bookAdded: Book!
+  }
 `
 
 const resolvers = {
   Query: {
-    bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       if (!args.author && !args.genre) {
@@ -95,7 +98,7 @@ const resolvers = {
         return null
       }
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: () => Author.find({}).populate('books'),
     me: (root, args, context) => {
       return context.currentUser
     }
@@ -108,9 +111,6 @@ const resolvers = {
     born: async (root) => {
       const author = await Author.findById(root._id)
       return author.born
-    },
-    bookCount: (root) => {
-      return Book.find({ author: root._id }).countDocuments()
     }
   },
   Mutation: {
@@ -124,7 +124,7 @@ const resolvers = {
       let author = await Author.findOne({ name: args.author })
       
       if (!author) {
-        author = new Author({ name: args.author })
+        author = new Author({ name: args.author, bookCount: 0 })
         try {
           await author.save()
         } catch (error) {
@@ -138,11 +138,14 @@ const resolvers = {
 
       try {
         await book.save()
+        await Author.findOneAndUpdate({ name: author.name}, { books: author.books.concat(book), bookCount: author.bookCount + 1 })
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
         })
       }
+
+      pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
       return book
     },
@@ -196,7 +199,12 @@ const resolvers = {
 
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     }
-  }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+    },
+  },
 }
 
 const server = new ApolloServer({
@@ -217,6 +225,7 @@ const server = new ApolloServer({
   }  
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })
