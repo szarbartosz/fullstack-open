@@ -57,4 +57,10 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] login and updating the cache
 - [x] fragments and subscriptions
 
+### part9 - Typescript
+- [ ] background and introduction
+- [ ] first steps with typescript
+- [ ] typing the express app
+- [ ] react with types
+
 [deployed phonebook app](https://nameless-peak-91445.herokuapp.com)
