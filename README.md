@@ -58,8 +58,8 @@ React-oriented fullstack course I took in order to enhance my programming skills
 - [x] fragments and subscriptions
 
 ### part9 - Typescript
-- [ ] background and introduction
-- [ ] first steps with typescript
+- [x] background and introduction
+- [x] first steps with typescript
 - [ ] typing the express app
 - [ ] react with types
 
