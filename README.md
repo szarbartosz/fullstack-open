@@ -60,7 +60,7 @@ React-oriented fullstack course I took in order to enhance my programming skills
 ### part9 - Typescript
 - [x] background and introduction
 - [x] first steps with typescript
-- [ ] typing the express app
+- [x] typing the express app
 - [ ] react with types
 
 [deployed phonebook app](https://nameless-peak-91445.herokuapp.com)
